@@ -16,7 +16,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/orders")
 public class OrderController {
 
     private final Map<Long, List<Order>> userOrders = new HashMap<>();

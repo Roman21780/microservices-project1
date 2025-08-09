@@ -1,29 +1,32 @@
-// Этот блок должен быть ПЕРВЫМ в файле
 buildscript {
     repositories {
         gradlePluginPortal()
+        mavenCentral()
     }
     dependencies {
         classpath 'io.spring.gradle:dependency-management-plugin:1.1.4'
     }
 }
 
-// Затем применяем плагины ко всем подпроектам
-subprojects {
+plugins {
+    id 'base'
+}
+
+allprojects {
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
 
     group = 'ru.netology'
     version = '0.0.1-SNAPSHOT'
 
-    repositories {
-        mavenCentral()
-    }
-
     java {
         toolchain {
             languageVersion = JavaLanguageVersion.of(21)
         }
+    }
+
+    repositories {
+        mavenCentral()
     }
 
     configurations {
@@ -36,19 +39,21 @@ subprojects {
         compileOnly 'org.projectlombok:lombok:1.18.34'
         annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
-        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
     }
 
     test {
         useJUnitPlatform()
+        jvmArgs = [
+                '-XX:+EnableDynamicAgentLoading',
+                '-Djdk.instrument.traceUsage=true'
+        ]
         testLogging {
             events "passed", "skipped", "failed"
             showStandardStreams = true
         }
-        ignoreFailures = true
     }
 
     dependencyManagement {
