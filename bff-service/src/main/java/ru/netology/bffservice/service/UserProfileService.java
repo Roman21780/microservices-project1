@@ -9,8 +9,6 @@ import ru.netology.bffservice.model.UserProfile;
 import ru.netology.common.model.Order;
 import ru.netology.common.model.User;
 
-
-
 import java.util.List;
 
 @Service
@@ -18,7 +16,7 @@ public class UserProfileService {
 
     private final RestTemplate restTemplate;
 
-    @Value("${order.service.url}")
+    @Value("${user.service.url}")
     private String userServiceUrl;
 
     @Value("${order.service.url}")
