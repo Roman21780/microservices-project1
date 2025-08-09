@@ -1,0 +1,17 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+    plugins {
+        id 'org.springframework.boot' version '3.2.5' apply false
+        id 'io.spring.dependency-management' version '1.1.4' apply false
+        id 'java-library' apply false
+    }
+}
+
+rootProject.name = 'microservices-project1'
+include ':user-service'
+include ':order-service'
+include ':bff-service'
+include ':common-dto'
